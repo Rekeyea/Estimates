@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Estimate.Migration.Past", "Estimate.Migration.Past\Estimate.Migration.Past.fsproj", "{49E0F56A-E5E5-49A5-BC4A-6E6C4E406570}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Estimate.Types", "Estimate.Types\Estimate.Types.fsproj", "{4B86C64F-9E2A-4998-9B72-98D63B4DD713}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Test", "Test\Test.fsproj", "{ADF95144-2BF4-49F6-988A-C3FB688349B8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49E0F56A-E5E5-49A5-BC4A-6E6C4E406570}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49E0F56A-E5E5-49A5-BC4A-6E6C4E406570}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49E0F56A-E5E5-49A5-BC4A-6E6C4E406570}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49E0F56A-E5E5-49A5-BC4A-6E6C4E406570}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B86C64F-9E2A-4998-9B72-98D63B4DD713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B86C64F-9E2A-4998-9B72-98D63B4DD713}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B86C64F-9E2A-4998-9B72-98D63B4DD713}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B86C64F-9E2A-4998-9B72-98D63B4DD713}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADF95144-2BF4-49F6-988A-C3FB688349B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADF95144-2BF4-49F6-988A-C3FB688349B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADF95144-2BF4-49F6-988A-C3FB688349B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADF95144-2BF4-49F6-988A-C3FB688349B8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
