@@ -29,7 +29,7 @@ module Functions =
             |>Seq.where(fun x -> extensions.Contains(Path.GetExtension(x)))
             |>Seq.map(fun x-> File.ReadAllText(x))
             |>Seq.map(fun x-> deleteTextComments x comments)
-            |>Seq.map(fun x -> x.Split('\n').Length+1)
+            |>Seq.map(fun x -> if x.Last().Equals('\n') then x.Split('\n').Length else x.Split('\n').Length+1)
             |>Seq.sum
         let childDirLines = 
             folderName
