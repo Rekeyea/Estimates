@@ -3,6 +3,6 @@
 type public LineOfCodeEstimate = 
     {
         ProjectName:string;
-        Lines:int;
+        EstimateValue:decimal;
         EstimateDuration:decimal;
     }

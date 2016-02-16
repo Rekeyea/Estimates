@@ -5,41 +5,42 @@ open System.IO
 open System.Linq
 open Estimate.Types
 open System.Text.RegularExpressions
+open Lines
+open Weight
+
 
 module Functions =
 
-
-    let rec private deleteEmptyLines (text:string) = 
-        let rLines = "\r\n((\r\n)+)(.*)"
-        let mat = Regex.Match(text, rLines)
-        if Regex.IsMatch(text,rLines) then deleteEmptyLines (Regex.Replace(text,rLines,"\r\n"+mat.Groups.[3].Value)) else text
-        
-    let private deleteTextComment (text:string) (commentRegex:string)=
-        Regex.Replace(text, commentRegex, "")
-        |>deleteEmptyLines 
-        
-    let rec private deleteTextComments (text:string) (comments:string list)=
-        match comments with
-            |[] -> text
-            | head :: tail -> deleteTextComments (deleteTextComment text head) tail
-        
-    let rec private linesInFolder folderName (extensions: string list) (comments: string list) =
-        let currentDirLines = 
+    let rec private calculateInFolder (folderName:string)(extensions:string list)(mapper: string -> decimal) = 
+        let currentDirCalc = 
             Directory.EnumerateFiles(folderName)
             |>Seq.where(fun x -> extensions.Contains(Path.GetExtension(x)))
-            |>Seq.map(fun x-> File.ReadAllText(x))
-            |>Seq.map(fun x-> deleteTextComments x comments)
-            |>Seq.map(fun x -> if x.Last().Equals('\n') then x.Split('\n').Length else x.Split('\n').Length+1)
+            |>Seq.map mapper
             |>Seq.sum
-        let childDirLines = 
+        let childDirCalc = 
             folderName
             |>Directory.EnumerateDirectories
-            |>Seq.map(fun x -> linesInFolder x extensions comments)
+            |>Seq.map(fun x -> calculateInFolder x extensions mapper)
             |>Seq.sum
-        currentDirLines+childDirLines
+        currentDirCalc+childDirCalc
+        
+        
+    let rec private linesInFolder (comments: string list) folderName (extensions: string list)  =
+        calculateInFolder folderName extensions (readLines comments)
 
-    let estimateProjectsInFolder (directory:string) (baseLines:int) (baseHours:decimal) (extensions: string list) (comments: string list)  =
+    let rec private weightInFolder folderName (extensions: string list) =
+        calculateInFolder folderName extensions weightFile
+
+    let private estimateProjectsInFolder (directory:string) (baseValue:decimal) (baseHours:decimal) (extensions: string list) (calculate:string->string list->decimal) =
         directory
         |>Directory.EnumerateDirectories
-        |>Seq.map(fun x -> (Path.GetFileName(x),linesInFolder x extensions comments))
-        |>Seq.map(fun (x,y) -> { ProjectName=x; Lines=y;EstimateDuration=(decimal)y*baseHours/(decimal)baseLines } )
+        |>Seq.map(fun x -> (Path.GetFileName(x),calculate x extensions))
+        |>Seq.map(fun (x,y) -> { ProjectName=x; EstimateValue=y;EstimateDuration=(decimal)y*baseHours/baseValue } )
+
+    let estimateProjectInFolderByLine(directory:string) (baseValue:decimal) (baseHours:decimal) (extensions: string list) (comments: string list)  =
+        estimateProjectsInFolder directory baseValue baseHours extensions (linesInFolder comments)
+
+    let estimateProjectInFolderByWeight(directory:string) (baseValue:decimal) (baseHours:decimal) (extensions: string list)=
+        estimateProjectsInFolder directory baseValue baseHours extensions weightInFolder
+
+    
